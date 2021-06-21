@@ -14,7 +14,7 @@ ln -s ${DATA_DIR}/logs /opt/coin/logs
 if test $# -eq 0; then
   sed -i -e 's/maxTimeRatio = 5.0/maxTimeRatio = 20.0/g' \
     -e 's/maxHttpConnectNumber = 50/maxHttpConnectNumber = 100/g' \
-    -e 's/maxActiveNodes = 30/maxActiveNodes = 100/g' \
+    -e 's/maxActiveNodes = 30/maxActiveNodes = 200/g' \
     -e 's/supportConstant = false/supportConstant = true/g' \
     -e 's/saveInternalTx = false/saveInternalTx = true/g' \
     main_net_config.conf
