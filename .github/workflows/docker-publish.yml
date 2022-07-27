@@ -40,7 +40,8 @@ jobs:
         env:
           # github.repository as <account>/<repo>
           IMAGE_NAME: ${{ github.repository }}
-        run: echo "::set-output name=name::${IMAGE_NAME%_docker}"
+        run: echo "::set-output name=name::${IMAGE_NAME%-docker}"
+        shell: bash
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
