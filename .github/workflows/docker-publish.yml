@@ -12,8 +12,6 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
 
 
 jobs:
@@ -37,6 +35,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Trim '_docker' suffix from IMAGE_NAME
+        id: image_name
+        env:
+          # github.repository as <account>/<repo>
+          IMAGE_NAME: ${{ github.repository }}
+        run: echo "::set-output name=name::${IMAGE_NAME%_docker}"
+
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
@@ -45,7 +50,7 @@ jobs:
         with:
           flavor: |
             latest=true
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ steps.meta.image_name.outputs.name }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
